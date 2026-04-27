@@ -1,0 +1,72 @@
+import type { Note } from "../types/note";
+import axios from "axios";
+
+const API_URL = "https://notehub-public.goit.study/api/notes";
+
+interface FetchNotesResponse {
+  notes: Note[];
+  totalPages: number;
+}
+
+interface MutateNoteResponse {
+  note: Note;
+}
+
+export const fetchNotes = async (
+  currentPage: number,
+  perPage: number,
+  search: string,
+  tag?: string,
+): Promise<FetchNotesResponse> => {
+  const response = await axios.get<FetchNotesResponse>(API_URL, {
+    params: {
+      page: currentPage,
+      perPage: perPage,
+      search: search,
+      tag: tag,
+    },
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
+    },
+  });
+  return response.data;
+};
+
+export const fetchNoteById = async (id: string): Promise<Note> => {
+  const response = await axios.get<Note>(`${API_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
+    },
+  });
+  return response.data;
+};
+
+export const createNote = async ({
+  title,
+  content,
+  tag,
+}: {
+  title: string;
+  content: string;
+  tag: string;
+}): Promise<MutateNoteResponse> => {
+  const response = await axios.post<MutateNoteResponse>(
+    API_URL,
+    { title, content, tag },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+export const deleteNote = async (id: string): Promise<MutateNoteResponse> => {
+  const response = await axios.delete<MutateNoteResponse>(`${API_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
+    },
+  });
+  return response.data;
+};
