@@ -5,15 +5,15 @@ import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
-import { fetchNotes } from "../../../lib/api";
-import type { Note } from "../../../types/note";
+import { fetchNotes } from "../../lib/api";
+import type { Note } from "../../types/note";
 
-import NoteList from "../../../components/NoteList/NoteList";
-import Pagination from "../../../components/Pagination/Pagination";
-import Modal from "../../../components/Modal/Modal";
-import NoteForm from "../../../components/NoteForm/NoteForm";
-import Loader from "../../../components/Loader/Loader";
-import SearchBox from "../../../components/SearchBox/SearchBox";
+import NoteList from "../../components/NoteList/NoteList";
+import Pagination from "../../components/Pagination/Pagination";
+import Modal from "../../components/Modal/Modal";
+import NoteForm from "../../components/NoteForm/NoteForm";
+import Loader from "../../components/Loader/Loader";
+import SearchBox from "../../components/SearchBox/SearchBox";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
