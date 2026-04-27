@@ -19,6 +19,9 @@ export default function NotePreviewClient() {
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
+
+  const handleClose = () => router.back();
+
   if (isLoading) return <p>Loading, please wait...</p>;
 
   if (error || !note) return <p>Something went wrong.</p>;
@@ -27,8 +30,15 @@ export default function NotePreviewClient() {
     : `Created at: ${note.createdAt}`;
   return (
     <>
-      <Modal onClose={() => router.back()}>
+      <Modal onClose={handleClose}>
         <div className={css.container}>
+          <button
+            className={css.closeButton}
+            onClick={handleClose}
+            aria-label="Close modal"
+          >
+            &times;
+          </button>
           <div className={css.item}>
             <div className={css.header}>
               <h2>{note.title}</h2>

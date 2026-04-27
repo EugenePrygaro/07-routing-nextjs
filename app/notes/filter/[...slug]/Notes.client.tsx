@@ -16,13 +16,15 @@ import NoteForm from "@/components/NoteForm/NoteForm";
 import Loader from "@/components/Loader/Loader";
 import SearchBox from "@/components/SearchBox/SearchBox";
 
-export default function App() {
+interface NotesClientProps {
+  tag: string;
+}
+export default function NoteClient({ tag }: NotesClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const tag = useParams()?.slug?.[0] || "all";
 
-  const isAll = tag === "all";
+  const isAll: boolean = tag === "all";
   const queryKey = isAll
     ? ["notes", currentPage, search]
     : ["notes", currentPage, search, tag];

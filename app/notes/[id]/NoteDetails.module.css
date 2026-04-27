@@ -57,3 +57,32 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    z-index: 10;
+}
+
+.closeButton:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.closeButton:active {
+    transform: scale(0.95);
+}
