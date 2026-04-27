@@ -4,25 +4,32 @@ import css from "./NotesPage.module.css";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
-import { fetchNotes } from "../../lib/api";
-import type { Note } from "../../types/note";
+import { fetchNotes } from "@/lib/api";
+import type { Note } from "@/types/note";
 
-import NoteList from "../../components/NoteList/NoteList";
-import Pagination from "../../components/Pagination/Pagination";
-import Modal from "../../components/Modal/Modal";
-import NoteForm from "../../components/NoteForm/NoteForm";
-import Loader from "../../components/Loader/Loader";
-import SearchBox from "../../components/SearchBox/SearchBox";
+import NoteList from "@/components/NoteList/NoteList";
+import Pagination from "@/components/Pagination/Pagination";
+import Modal from "@/components/Modal/Modal";
+import NoteForm from "@/components/NoteForm/NoteForm";
+import Loader from "@/components/Loader/Loader";
+import SearchBox from "@/components/SearchBox/SearchBox";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const tag = useParams()?.slug?.[0] || "all";
+
+  const isAll = tag === "all";
+  const queryKey = isAll
+    ? ["notes", currentPage, search]
+    : ["notes", currentPage, search, tag];
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["notes", currentPage, search],
-    queryFn: () => fetchNotes(currentPage, 12, search),
+    queryKey,
+    queryFn: () => fetchNotes(currentPage, 12, search, isAll ? undefined : tag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
